@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
 import type { DataSourceOptions } from "typeorm";
+import { User } from "./entities/User";
 
 const dbConfig: DataSourceOptions = {
 	type: "postgres",
@@ -9,9 +10,8 @@ const dbConfig: DataSourceOptions = {
 	password: process.env.DB_PASSWORD,
 	database: process.env.DB_NAME,
 	logging: true,
-	entities: ["src/entities/**/*.ts"],
-	migrations: ["src/migration/**/*.ts"],
-	subscribers: ["src/subscriber/**/*.ts"],
+	synchronize: true,
+	entities: [User],
 	// Todo: add cache option
 };
 
