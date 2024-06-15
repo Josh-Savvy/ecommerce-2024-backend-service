@@ -12,7 +12,7 @@ export default class AuthService {
 	constructor() {}
 
 	static generateAuthTokens(userId: string, args?: { withRefresh?: boolean }) {
-		const accessToken = jwt.sign({ id: userId }, process.env.JWT_SECRET_KEY! as string, { expiresIn: "1d" });
+		const accessToken = jwt.sign({ id: userId }, process.env.JWT_SECRET! as string, { expiresIn: "1d" });
 		cacheManager.set("accessToken", { id: userId }, 86400); //24h
 
 		if (args?.withRefresh) {

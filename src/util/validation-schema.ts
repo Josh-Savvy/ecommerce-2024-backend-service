@@ -32,6 +32,7 @@ export const createUserSchema = Joi.object({
 		"string.base": "email is required",
 		"string.required": "email is required",
 		"string.email": "invalid email",
+		"string.empty": "email cannot be empty",
 	}),
 	password: passwordValidationSchema(),
 });
