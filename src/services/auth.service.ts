@@ -26,11 +26,9 @@ export default class AuthService {
 	async register(input: CreateUserInput) {
 		const EX = 86400;
 		const errorCacheKey = `register-${input.email}`;
-		if (cacheManager.has(errorCacheKey)) {
-			const cachedErr = cacheManager.get(errorCacheKey);
-			console.log({ cachedErr });
-			throw badRequestException(cachedErr);
-		}
+		const cachedErr = cacheManager.get(errorCacheKey);
+		if (cachedErr) throw badRequestException(cachedErr);
+
 		try {
 			const user = await this.userService.create(input);
 			await this.emailService.sendRegistrationEmail({ email: user.email }); // Todo: use bg event to send registration email
@@ -50,16 +48,15 @@ export default class AuthService {
 	async login(input: CreateUserInput) {
 		const EX = 86400;
 		const errorCacheKey = `login-error-${input.email}-${input.password}`;
-		if (cacheManager.has(errorCacheKey)) {
-			const cachedErr = cacheManager.get(errorCacheKey);
-			console.log({ cachedErr });
-			throw badRequestException(cachedErr);
-		}
+		const cachedErr = cacheManager.get(errorCacheKey);
+		if (cachedErr) throw badRequestException(cachedErr);
 		const user = await this.userService.findOneByEmail(input.email);
 		if (!user) {
 			cacheManager.set(errorCacheKey, "Invalid credentials", EX);
 			throw badRequestException("Invalid credentials");
 		}
+		const { refreshToken } = AuthService.generateAuthTokens(user.id, { withRefresh: true });
+		return { user, refreshToken };
 	}
 
 	// todo: forgot password
