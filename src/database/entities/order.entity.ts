@@ -11,7 +11,7 @@ import Product from "./product.entity";
 import StringHelper from "../../helpers/string.helper";
 import User from "./user.entity";
 
-@Entity()
+@Entity("orders")
 export default class Order {
 	@PrimaryGeneratedColumn()
 	id!: number;

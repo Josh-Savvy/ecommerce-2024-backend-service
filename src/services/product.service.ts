@@ -26,8 +26,14 @@ export class ProductService {
 		const cacheKey = `all-products?limit=${limit}-${skip}`;
 		const cache = cacheManager.get(cacheKey);
 		if (cache) return cache;
-		const data = { page: 1, count: limit, data: await productRepository.find({ skip, take: limit }) };
+		const data = {
+			page: 1,
+			count: limit,
+			data: await productRepository.find({ skip, take: limit, relations: ["category"] }),
+		};
 		cacheManager.set(cacheKey, data, 86400 / 2);
 		return data;
 	}
+
+	// Todo: get similar products
 }

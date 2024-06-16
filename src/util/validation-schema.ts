@@ -38,3 +38,25 @@ export const createUserSchema = Joi.object({
 });
 
 export const loginSchema = createUserSchema;
+
+export const LimitAndSkipQuerySchema = Joi.object({
+	limit: Joi.number().positive().min(1).optional().messages({
+		"number.min": "limit cannot be less than one",
+		"any.positive": "limit must be a positive integer",
+	}),
+	skip: Joi.number().positive().min(0).optional().messages({
+		"number.min": "skip must be a positive integer",
+		"any.positive": "skip must be a positive integer",
+	}),
+});
+
+export const getSingleProductSchema = Joi.object({
+	productId: Joi.string().uuid().required().messages({
+		"string.trim": "productId is required",
+		"string.empty": "productId is required",
+		"string.required": "productId is required",
+		"any.required": "productId is required",
+		"any.base": "productId is required",
+		"string.guid": "invalid productId",
+	}),
+});

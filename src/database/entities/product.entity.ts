@@ -33,6 +33,9 @@ export default class Product {
 	@Column("int")
 	quantity!: number;
 
+	@Column({ default: true })
+	inStock!: boolean;
+
 	@Column("bigint", { default: 0 })
 	views!: number;
 
