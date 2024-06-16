@@ -5,10 +5,12 @@ import EmailService from "./email.service";
 import jwt from "jsonwebtoken";
 import cacheManager from "../lib/cache-manager";
 import { QueryFailedError } from "typeorm";
+import { OtpService } from "./otp.service";
 
 export default class AuthService {
 	private userService = new UserService();
 	private emailService = new EmailService();
+	private otpService = new OtpService();
 	constructor() {}
 
 	static generateAuthTokens(userId: string, args?: { withRefresh?: boolean }) {
@@ -31,7 +33,8 @@ export default class AuthService {
 
 		try {
 			const user = await this.userService.create(input);
-			await this.emailService.sendRegistrationEmail({ email: user.email }); // Todo: use bg event to send registration email
+			const otp = await this.otpService.generateOtpForUser(user.email);
+			await this.emailService.sendRegistrationEmail({ email: user.email, data: { otp } }); // Todo: use bg event to send registration email
 			const { accessToken } = AuthService.generateAuthTokens(user.id);
 			return { user, accessToken };
 		} catch (error: any) {
@@ -45,6 +48,12 @@ export default class AuthService {
 		}
 	}
 
+	async verifyRegistration(email: string, otp: string) {
+		const isValid = await this.otpService.validateOtp(email, otp);
+		if (!isValid) throw badRequestException("Invalid or expired OTP");
+		return { message: "Account verified successfully" };
+	}
+
 	async login(input: CreateUserInput) {
 		const EX = 86400;
 		const errorCacheKey = `login-error-${input.email}-${input.password}`;
@@ -55,8 +64,8 @@ export default class AuthService {
 			cacheManager.set(errorCacheKey, "Invalid credentials", EX);
 			throw badRequestException("Invalid credentials");
 		}
-		const { refreshToken } = AuthService.generateAuthTokens(user.id, { withRefresh: true });
-		return { user, refreshToken };
+		const { accessToken, refreshToken } = AuthService.generateAuthTokens(user.id, { withRefresh: true });
+		return { user, accessToken, refreshToken };
 	}
 
 	// todo: forgot password

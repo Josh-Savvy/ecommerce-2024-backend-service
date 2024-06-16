@@ -8,6 +8,7 @@ import errorHandler from "./middlewares/error-handler";
 import { xssFilter as xss } from "helmet";
 import AppDataSource from "./database";
 import http from "http";
+import seedProducts from "./database/seeders/products";
 
 dotenv.config();
 
@@ -43,8 +44,12 @@ const server = http.createServer(app);
 
 // Start server
 AppDataSource.initialize()
-	.then(() => {
+	.then(async () => {
 		console.log("Database connected.");
+		if (process.env.RUN_SEEDERS == "true") {
+			await seedProducts();
+			// Other seeders
+		}
 		server.listen(PORT, () => {
 			console.log(`Server is running on http://localhost:${PORT}`);
 		});

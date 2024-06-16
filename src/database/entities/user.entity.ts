@@ -9,14 +9,14 @@ import {
 } from "typeorm";
 import * as bcrypt from "bcrypt";
 
-enum UserRole {
+export enum UserRole {
 	User = "User",
 	Admin = "Admin",
 	SuperAdmin = "SuperAdmin",
 }
 @Entity("users")
 export class User {
-	@PrimaryGeneratedColumn("identity")
+	@PrimaryGeneratedColumn("uuid")
 	id!: string;
 
 	@Column({ unique: true })
@@ -29,7 +29,7 @@ export class User {
 	password!: string;
 
 	@Column({ type: "enum", enum: UserRole, default: UserRole.User })
-	role!: string;
+	role!: UserRole;
 
 	@Column({ default: false })
 	isActive!: boolean;
