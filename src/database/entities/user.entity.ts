@@ -6,16 +6,20 @@ import {
 	UpdateDateColumn,
 	BeforeInsert,
 	BeforeUpdate,
+	OneToMany,
+	ManyToMany,
 } from "typeorm";
 import * as bcrypt from "bcrypt";
+import Order from "./order.entity";
 
 export enum UserRole {
 	User = "User",
+	Seller = "Seller",
 	Admin = "Admin",
 	SuperAdmin = "SuperAdmin",
 }
 @Entity("users")
-export class User {
+export default class User {
 	@PrimaryGeneratedColumn("uuid")
 	id!: string;
 
@@ -39,6 +43,9 @@ export class User {
 
 	@UpdateDateColumn()
 	updatedAt!: Date;
+
+	@OneToMany(() => Order, (order) => order.user, { onDelete: "SET NULL", nullable: true })
+	orders!: Order[];
 
 	@BeforeInsert()
 	@BeforeUpdate()

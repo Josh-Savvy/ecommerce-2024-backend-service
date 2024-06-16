@@ -1,23 +1,30 @@
-import { string } from "joi";
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from "typeorm";
+import Category from "./category.entity";
+import Order from "./order.entity";
 
 export interface ProductImage {
 	id: string;
 	url: string;
 }
 
+export interface Rating {
+	id: string;
+	value: number;
+	ratedBy: string; //userId
+}
+
 @Entity("products")
-export class Product {
+export default class Product {
 	@PrimaryGeneratedColumn("uuid")
 	id!: string;
 
-	@Column()
+	@Column({ length: 100 })
 	title!: string;
 
 	@Column("text", { nullable: true })
 	description!: string;
 
-	@Column("jsonb", { default: [] })
+	@Column("jsonb", { default: [], nullable: true })
 	images!: ProductImage[];
 
 	@Column("decimal", { precision: 10, scale: 2 })
@@ -35,9 +42,20 @@ export class Product {
 	@Column("decimal", { precision: 10, scale: 2, nullable: true })
 	discoutedPrice!: number;
 
+	@Column("jsonb", { default: [], nullable: true })
+	rating!: Rating[];
+
+	// Todo: created by
+
 	@CreateDateColumn()
 	createdAt!: Date;
 
 	@UpdateDateColumn()
 	updatedAt!: Date;
+
+	@ManyToOne(() => Category, (category) => category.products, { onDelete: "CASCADE" })
+	category!: Category;
+
+	@ManyToOne(() => Order, (order) => order.products, { nullable: true, onDelete: "SET NULL" })
+	order!: Order | null;
 }

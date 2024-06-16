@@ -1,9 +1,12 @@
 import { DataSource } from "typeorm";
 import type { DataSourceOptions } from "typeorm";
-import { User } from "./entities/user.entity";
 import { config } from "dotenv";
-import { Product } from "./entities/product.entity";
-import { Auth } from "./entities/auth.entity";
+// Entities
+import User from "./entities/user.entity";
+import Product from "./entities/product.entity";
+import Auth from "./entities/auth.entity";
+import Category from "./entities/category.entity";
+import Order from "./entities/order.entity";
 config();
 
 const dbConfig: DataSourceOptions = {
@@ -15,7 +18,7 @@ const dbConfig: DataSourceOptions = {
 	database: process.env.DB_NAME,
 	logging: !true,
 	synchronize: true,
-	entities: [User, Product, Auth],
+	entities: [User, Product, Auth, Category, Order],
 	// Todo: add cache option
 };
 

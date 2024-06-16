@@ -1,4 +1,4 @@
-import { Auth } from "../database/entities/auth.entity";
+import Auth from "../database/entities/auth.entity";
 import { otpRepository } from "../database/repository";
 
 export class OtpService {

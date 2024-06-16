@@ -10,7 +10,7 @@ import {
 } from "typeorm";
 
 @Entity("auth-otps")
-export class Auth {
+export default class Auth {
 	@PrimaryColumn()
 	/**
 	 * email or phone number

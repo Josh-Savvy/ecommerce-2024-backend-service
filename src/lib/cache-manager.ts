@@ -3,6 +3,7 @@ import memcache from "memory-cache";
  * CacheManager class to manage caching operations using memory-cache.
  */
 class CacheManager {
+	// Todo: use redis as the cache manager
 	private cache = new memcache.Cache();
 	/**
 	 * Creates an instance of CacheManager.

@@ -2,8 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import { forbiddenException, unauthorizedException } from "./error-handler";
 import type JwtUser from "../interfaces/JwtUser";
-import { userRepository } from "../database/repository";
-import { User, UserRole } from "../database/entities/user.entity";
+import User, { UserRole } from "../database/entities/user.entity";
 import UserService from "../services/user.service";
 
 export const authentication = (req: Request, res: Response, next: NextFunction) => {

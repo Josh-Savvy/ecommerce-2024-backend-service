@@ -10,6 +10,7 @@ import AppDataSource from "./database";
 import http from "http";
 import seedProducts from "./database/seeders/products";
 import morgan from "morgan";
+import seedCategories from "./database/seeders/category";
 
 dotenv.config();
 
@@ -50,6 +51,7 @@ AppDataSource.initialize()
 	.then(async () => {
 		console.log("Database connected.");
 		if (process.env.RUN_SEEDERS == "true") {
+			await seedCategories(10);
 			await seedProducts();
 			// Other seeders
 		}
