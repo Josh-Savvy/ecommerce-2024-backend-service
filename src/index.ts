@@ -9,6 +9,7 @@ import { xssFilter as xss } from "helmet";
 import AppDataSource from "./database";
 import http from "http";
 import seedProducts from "./database/seeders/products";
+import morgan from "morgan";
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.set("trust proxy", true);
+
+app.use(morgan("dev"));
 
 app.use(express.json({ limit: "5mb" }))
 	.use(express.urlencoded({ extended: true, limit: "5mb" }))

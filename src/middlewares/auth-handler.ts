@@ -7,9 +7,11 @@ import { User, UserRole } from "../database/entities/user.entity";
 import UserService from "../services/user.service";
 
 export const authentication = (req: Request, res: Response, next: NextFunction) => {
+	const cookies = req.cookies;
+	console.log({ cookies });
 	const header = req.headers.authorization;
 	if (!header) throw unauthorizedException("Invalid headers param");
-	const token = header.split(" ")[1];
+	let token = header.split(" ")[1];
 	if (!token) throw unauthorizedException("Auth token not found");
 	try {
 		const decode = jwt.verify(token, process.env.JWT_SECRET!);

@@ -26,6 +26,9 @@ export class Product {
 	@Column("int")
 	quantity!: number;
 
+	@Column("bigint", { default: 0 })
+	views!: number;
+
 	@Column("int", { nullable: true })
 	percentageOff?: number;
 
