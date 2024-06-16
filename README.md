@@ -22,7 +22,7 @@ To get started with this boilerplate, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone <repository-url>
+    git clone ```https://github.com/Josh-Savvy/ecommerce-2024-backend-service```
     ```
 2. Install Deps:
     ```bash
