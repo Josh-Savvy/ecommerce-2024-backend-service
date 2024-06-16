@@ -23,7 +23,7 @@ app.use(morgan("dev"));
 
 app.use(express.json({ limit: "5mb" }))
 	.use(express.urlencoded({ extended: true, limit: "5mb" }))
-	.use(cors())
+	.use(cors({ origin: "*" }))
 	.use(xss())
 	// todo: rate limiter
 	// todo: api documentation middleware

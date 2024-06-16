@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSingleProductSchema = exports.LimitAndSkipQuerySchema = exports.loginSchema = exports.createUserSchema = exports.passwordValidationSchema = void 0;
+exports.resourceIdSchema = exports.LimitAndSkipQuerySchema = exports.loginSchema = exports.createUserSchema = exports.passwordValidationSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 const passwordValidationSchema = (requiredLength = 6) => {
     const uppercaseRegex = /^(?=.*[A-Z])/;
@@ -55,14 +55,16 @@ exports.LimitAndSkipQuerySchema = joi_1.default.object({
         "any.positive": "skip must be a positive integer",
     }),
 });
-exports.getSingleProductSchema = joi_1.default.object({
-    productId: joi_1.default.string().uuid().required().messages({
-        "string.trim": "productId is required",
-        "string.empty": "productId is required",
-        "string.required": "productId is required",
-        "any.required": "productId is required",
-        "any.base": "productId is required",
-        "string.guid": "invalid productId",
-    }),
+const resourceIdSchema = (name) => joi_1.default.string()
+    .uuid()
+    .required()
+    .messages({
+    "string.trim": `${name} is required`,
+    "string.empty": `${name} is required`,
+    "string.required": `${name} is required`,
+    "any.required": `${name} is required`,
+    "any.base": `${name} is required`,
+    "string.guid": `invalid ${name}`,
 });
+exports.resourceIdSchema = resourceIdSchema;
 //# sourceMappingURL=validation-schema.js.map

@@ -22,7 +22,7 @@ app.set("trust proxy", true);
 app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.json({ limit: "5mb" }))
     .use(express_1.default.urlencoded({ extended: true, limit: "5mb" }))
-    .use((0, cors_1.default)())
+    .use((0, cors_1.default)({ origin: "*" }))
     .use((0, helmet_1.xssFilter)())
     // todo: rate limiter
     // todo: api documentation middleware

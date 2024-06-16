@@ -1,8 +1,8 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { ProductController } from "../controllers/product.controller";
-import { celebrate } from "celebrate";
-import { getSingleProductSchema, LimitAndSkipQuerySchema } from "../util/validation-schema";
+import { celebrate, Joi } from "celebrate";
+import { LimitAndSkipQuerySchema, resourceIdSchema } from "../util/validation-schema";
 
 const productsRoute = Router();
 
@@ -10,6 +10,7 @@ const productsController = new ProductController();
 
 productsRoute.post(
 	"/",
+	// todo: input validation
 	expressAsyncHandler(async (req, res) => {
 		const data = await productsController.createProduct(req.body);
 		res.status(201).json({ messsage: "Product created successfully", data });
@@ -18,7 +19,7 @@ productsRoute.post(
 
 productsRoute.get(
 	"/:productId",
-	celebrate({ params: getSingleProductSchema }),
+	celebrate({ params: Joi.object({ productId: resourceIdSchema("productId") }) }),
 	expressAsyncHandler(async (req, res) => {
 		const data = await productsController.getProductById(req.params.productId);
 		res.status(200).json({ ...data });
@@ -27,7 +28,7 @@ productsRoute.get(
 
 productsRoute.put(
 	"/:productId",
-	celebrate({ params: getSingleProductSchema }),
+	celebrate({ params: Joi.object({ productId: resourceIdSchema("productId") }) }),
 	expressAsyncHandler(async (req, res) => {
 		const data = await productsController.updateProduct(req.params.id, req.body);
 		res.status(200).json({ ...data });
@@ -36,7 +37,7 @@ productsRoute.put(
 
 productsRoute.delete(
 	"/:productId",
-	celebrate({ params: getSingleProductSchema }),
+	celebrate({ params: Joi.object({ productId: resourceIdSchema("productId") }) }),
 	expressAsyncHandler(async (req, res) => {
 		await productsController.deleteProduct(req.params.id);
 		res.status(200).json({ message: "Product deleted successfully" });

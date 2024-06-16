@@ -71,8 +71,13 @@ __decorate([
 ], Product.prototype, "updatedAt", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => category_entity_1.default, (category) => category.products, { onDelete: "CASCADE" }),
+    (0, typeorm_1.JoinColumn)({ name: "categoryId" }),
     __metadata("design:type", category_entity_1.default)
 ], Product.prototype, "category", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Product.prototype, "categoryId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => order_entity_1.default, (order) => order.products, { nullable: true, onDelete: "SET NULL" }),
     __metadata("design:type", Object)

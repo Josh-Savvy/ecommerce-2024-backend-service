@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from "typeorm";
+import {
+	Entity,
+	PrimaryGeneratedColumn,
+	Column,
+	CreateDateColumn,
+	UpdateDateColumn,
+	ManyToOne,
+	JoinColumn,
+} from "typeorm";
 import Category from "./category.entity";
 import Order from "./order.entity";
 
@@ -57,7 +65,11 @@ export default class Product {
 	updatedAt!: Date;
 
 	@ManyToOne(() => Category, (category) => category.products, { onDelete: "CASCADE" })
+	@JoinColumn({ name: "categoryId" })
 	category!: Category;
+
+	@Column()
+	categoryId!: string;
 
 	@ManyToOne(() => Order, (order) => order.products, { nullable: true, onDelete: "SET NULL" })
 	order!: Order | null;

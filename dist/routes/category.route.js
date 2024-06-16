@@ -15,5 +15,10 @@ categoryRoute.get("/", (0, celebrate_1.celebrate)({ query: validation_schema_1.L
     const data = await categoryController.getAllCategories(skip, limit);
     res.status(200).json(data);
 }));
+categoryRoute.get("/:categoryId", (0, celebrate_1.celebrate)({ params: celebrate_1.Joi.object({ categoryId: (0, validation_schema_1.resourceIdSchema)("categoryId") }) }), (0, express_async_handler_1.default)(async (req, res) => {
+    const categoryId = req.params.categoryId;
+    const data = await categoryController.getCategoryById(categoryId);
+    res.status(200).json(data);
+}));
 exports.default = categoryRoute;
 //# sourceMappingURL=category.route.js.map

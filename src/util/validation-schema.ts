@@ -50,13 +50,15 @@ export const LimitAndSkipQuerySchema = Joi.object({
 	}),
 });
 
-export const getSingleProductSchema = Joi.object({
-	productId: Joi.string().uuid().required().messages({
-		"string.trim": "productId is required",
-		"string.empty": "productId is required",
-		"string.required": "productId is required",
-		"any.required": "productId is required",
-		"any.base": "productId is required",
-		"string.guid": "invalid productId",
-	}),
-});
+export const resourceIdSchema = (name: string) =>
+	Joi.string()
+		.uuid()
+		.required()
+		.messages({
+			"string.trim": `${name} is required`,
+			"string.empty": `${name} is required`,
+			"string.required": `${name} is required`,
+			"any.required": `${name} is required`,
+			"any.base": `${name} is required`,
+			"string.guid": `invalid ${name}`,
+		});
