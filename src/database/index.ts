@@ -17,7 +17,7 @@ const dbConfig: DataSourceOptions = {
 	password: process.env.DB_PASSWORD,
 	database: process.env.DB_NAME,
 	ssl: process.env.NODE_ENV === "production",
-	extra: { ssl: { rejectUnauthorized: false } },
+	extra: process.env.NODE_ENV === "production" ? { ssl: { rejectUnauthorized: false } } : {},
 	logging: !true,
 	synchronize: true,
 	entities: [User, Product, Auth, Category, Order],
