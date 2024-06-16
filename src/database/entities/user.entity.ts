@@ -10,9 +10,9 @@ import {
 import * as bcrypt from "bcrypt";
 
 enum UserRole {
-	User,
-	Admin,
-	SuperAdmin,
+	User = "User",
+	Admin = "Admin",
+	SuperAdmin = "SuperAdmin",
 }
 @Entity("users")
 export class User {

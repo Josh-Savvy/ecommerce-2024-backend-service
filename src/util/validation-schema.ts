@@ -36,3 +36,5 @@ export const createUserSchema = Joi.object({
 	}),
 	password: passwordValidationSchema(),
 });
+
+export const loginSchema = createUserSchema;

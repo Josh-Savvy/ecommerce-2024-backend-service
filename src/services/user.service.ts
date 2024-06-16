@@ -14,5 +14,18 @@ export default class UserService {
 		user = await userRepository.save(user);
 		return user;
 	}
-	// const userRepository = getRepository(User);
+
+	async findOneByEmail(email: string) {
+		return await userRepository.findOne({
+			where: { email },
+			// relations:["order"]
+		});
+	}
+
+	async currentUser(userId: string) {
+		return await userRepository.findOne({
+			where: { id: userId },
+			// relations:["order"]
+		});
+	}
 }
