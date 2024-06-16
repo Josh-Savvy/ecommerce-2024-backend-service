@@ -1,14 +1,12 @@
-# Express-TypeORM-Typescript Boilerplate
-
-This is a boilerplate project for quickly starting with an Express.js server using TypeORM with TypeScript.
-
+# ECommerce Backend Service
+<!-- 
 ## Features
 
 -   **Express.js**: Fast, unopinionated, minimalist web framework for Node.js.
 -   **TypeORM**: ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports PostgreSQL, MySQL, MariaDB, SQLite, and more.
 -   **TypeScript**: Typed superset of JavaScript that compiles to plain JavaScript.
 -   **dotenv**: Loads environment variables from a .env file into process.env.
--   **nodemon**: Utility that monitors for changes and automatically restarts the server.
+-   **nodemon**: Utility that monitors for changes and automatically restarts the server. -->
 
 ## Prerequisites
 
