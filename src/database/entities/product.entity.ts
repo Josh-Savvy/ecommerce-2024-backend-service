@@ -66,7 +66,6 @@ export default class Product {
 	@ManyToOne(() => Seller, (seller) => seller.products, { onDelete: "CASCADE" })
 	@JoinColumn({ name: "sellerId" })
 	seller!: Seller;
-	// hot fix
 
 	@Column()
 	sellerId!: string;
