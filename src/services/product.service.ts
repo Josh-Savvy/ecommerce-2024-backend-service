@@ -1,6 +1,7 @@
 import { productRepository } from "../database/repository";
 import { CreateProductInput, UpdateProductInput } from "../interfaces/ProductInput";
 import cacheManager from "../lib/cache-manager";
+import { badRequestException } from "../middlewares/error-handler";
 
 export class ProductService {
 	async createProduct(productData: CreateProductInput) {
@@ -9,7 +10,13 @@ export class ProductService {
 	}
 
 	async getProductById(id: string) {
-		const data = await productRepository.findOneOrFail({ where: { id } });
+		if (!id || id == undefined) throw badRequestException("invalid product id");
+		const cacheKey = `get-product-${id}`;
+		const cache = cacheManager.get(cacheKey);
+		if (cache) return cache;
+		const data = await productRepository.findOne({ where: { id } });
+		if (!data) throw badRequestException("Product not found");
+		cacheManager.set(cacheKey, data);
 		return data;
 	}
 

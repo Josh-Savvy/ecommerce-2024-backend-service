@@ -6,13 +6,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductService = void 0;
 const repository_1 = require("../database/repository");
 const cache_manager_1 = __importDefault(require("../lib/cache-manager"));
+const error_handler_1 = require("../middlewares/error-handler");
 class ProductService {
     async createProduct(productData) {
         return productData;
         // return productRepository.createProduct(productData);
     }
     async getProductById(id) {
-        const data = await repository_1.productRepository.findOneOrFail({ where: { id } });
+        if (!id || id == undefined)
+            throw (0, error_handler_1.badRequestException)("invalid product id");
+        const cacheKey = `get-product-${id}`;
+        const cache = cache_manager_1.default.get(cacheKey);
+        if (cache)
+            return cache;
+        const data = await repository_1.productRepository.findOne({ where: { id } });
+        if (!data)
+            throw (0, error_handler_1.badRequestException)("Product not found");
+        cache_manager_1.default.set(cacheKey, data);
         return data;
     }
     async updateProduct(id, productData) {

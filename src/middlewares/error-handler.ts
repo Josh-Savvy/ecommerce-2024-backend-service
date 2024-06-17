@@ -32,7 +32,7 @@ const handleKnownExceptions = (error: ErrorHandler, request: Request, response: 
 	const { statusCode, errorCode, message } = error;
 	return response
 		.status(statusCode)
-		.json({ error: { message, errorCode, path: request.path } })
+		.json({ error: { message, errorCode, path: request.path, statusCode } })
 		.end();
 };
 

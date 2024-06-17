@@ -26,6 +26,15 @@ export default class User {
 	@Column({ unique: true })
 	username!: string;
 
+	@Column()
+	avatar!: string;
+
+	@Column()
+	firstName!: string;
+
+	@Column()
+	lastName!: string;
+
 	@Column({ unique: true })
 	email!: string;
 

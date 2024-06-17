@@ -29,7 +29,7 @@ const handleKnownExceptions = (error, request, response) => {
     const { statusCode, errorCode, message } = error;
     return response
         .status(statusCode)
-        .json({ error: { message, errorCode, path: request.path } })
+        .json({ error: { message, errorCode, path: request.path, statusCode } })
         .end();
 };
 const handleUnknownExceptions = (error, request, response) => {
