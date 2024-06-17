@@ -12,10 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.OrderStatus = void 0;
 const typeorm_1 = require("typeorm");
 const product_entity_1 = __importDefault(require("./product.entity"));
 const string_helper_1 = __importDefault(require("../../helpers/string.helper"));
 const user_entity_1 = __importDefault(require("./user.entity"));
+var OrderStatus;
+(function (OrderStatus) {
+    OrderStatus["IN_PROGRESS"] = "IN_PROGRESS";
+    OrderStatus["DISPATCHED"] = "DISPATCHED";
+    OrderStatus["DELIVERED"] = "DELIVERED";
+    OrderStatus["CANCELLED"] = "CANCELLED";
+})(OrderStatus || (exports.OrderStatus = OrderStatus = {}));
 let Order = class Order {
     // Constructor to initialize products array
     constructor(notes) {
@@ -57,13 +65,25 @@ __decorate([
     __metadata("design:type", Number)
 ], Order.prototype, "totalAmount", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: "enum", enum: OrderStatus, default: OrderStatus.IN_PROGRESS }),
+    __metadata("design:type", String)
+], Order.prototype, "status", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => product_entity_1.default, (product) => product.order, { cascade: true, onDelete: "NO ACTION" }),
     __metadata("design:type", Array)
 ], Order.prototype, "products", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.default, (user) => user.orders, { onDelete: "CASCADE" }),
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.default, (user) => user.orders, { onDelete: "NO ACTION" }),
     __metadata("design:type", user_entity_1.default)
 ], Order.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "timestamp", nullable: true }),
+    __metadata("design:type", Object)
+], Order.prototype, "deliveryDate", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "timestamp", nullable: true }),
+    __metadata("design:type", Object)
+], Order.prototype, "deliveredOn", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp" }),
     __metadata("design:type", Date)

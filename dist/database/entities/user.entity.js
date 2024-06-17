@@ -39,6 +39,7 @@ exports.UserRole = void 0;
 const typeorm_1 = require("typeorm");
 const bcrypt = __importStar(require("bcrypt"));
 const order_entity_1 = __importDefault(require("./order.entity"));
+const product_entity_1 = __importDefault(require("./product.entity"));
 var UserRole;
 (function (UserRole) {
     UserRole["User"] = "User";
@@ -99,6 +100,10 @@ __decorate([
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
 ], User.prototype, "updatedAt", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => product_entity_1.default, (product) => product.seller, { onDelete: "SET NULL", nullable: true }),
+    __metadata("design:type", Array)
+], User.prototype, "products", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => order_entity_1.default, (order) => order.user, { onDelete: "SET NULL", nullable: true }),
     __metadata("design:type", Array)

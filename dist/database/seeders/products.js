@@ -9,6 +9,7 @@ const product_entity_1 = __importDefault(require("../entities/product.entity"));
 async function seedProducts(numberOfProducts = 50) {
     try {
         const categories = await repository_1.categoryRepository.find();
+        const users = await repository_1.userRepository.find();
         const products = Array.from({ length: numberOfProducts }).map(() => {
             const product = new product_entity_1.default();
             product.title = faker_1.faker.commerce.productName();
@@ -21,6 +22,9 @@ async function seedProducts(numberOfProducts = 50) {
             // Assign a random category to each product
             const randomCategory = faker_1.faker.helpers.arrayElement(categories);
             product.category = randomCategory;
+            // Assign a random user to each product
+            const randomUser = faker_1.faker.helpers.arrayElement(users);
+            product.seller = randomUser;
             return product;
         });
         await repository_1.productRepository.save(products);

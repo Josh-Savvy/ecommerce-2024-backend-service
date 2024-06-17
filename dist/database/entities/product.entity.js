@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const category_entity_1 = __importDefault(require("./category.entity"));
 const order_entity_1 = __importDefault(require("./order.entity"));
+const user_entity_1 = __importDefault(require("./user.entity"));
 let Product = class Product {
 };
 __decorate([
@@ -58,10 +59,6 @@ __decorate([
     __metadata("design:type", Number)
 ], Product.prototype, "discoutedPrice", void 0);
 __decorate([
-    (0, typeorm_1.Column)("jsonb", { default: [], nullable: true }),
-    __metadata("design:type", Array)
-], Product.prototype, "rating", void 0);
-__decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], Product.prototype, "createdAt", void 0);
@@ -70,7 +67,20 @@ __decorate([
     __metadata("design:type", Date)
 ], Product.prototype, "updatedAt", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => category_entity_1.default, (category) => category.products, { onDelete: "CASCADE" }),
+    (0, typeorm_1.Column)("jsonb", { default: [], nullable: true }),
+    __metadata("design:type", Array)
+], Product.prototype, "rating", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.default, (user) => user.products, { onDelete: "CASCADE" }),
+    (0, typeorm_1.JoinColumn)({ name: "sellerId" }),
+    __metadata("design:type", user_entity_1.default)
+], Product.prototype, "seller", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Product.prototype, "sellerId", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => category_entity_1.default, (category) => category.products, { onDelete: "RESTRICT" }),
     (0, typeorm_1.JoinColumn)({ name: "categoryId" }),
     __metadata("design:type", category_entity_1.default)
 ], Product.prototype, "category", void 0);
@@ -80,8 +90,13 @@ __decorate([
 ], Product.prototype, "categoryId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => order_entity_1.default, (order) => order.products, { nullable: true, onDelete: "SET NULL" }),
+    (0, typeorm_1.JoinColumn)({ name: "orderId" }),
     __metadata("design:type", Object)
 ], Product.prototype, "order", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Product.prototype, "orderId", void 0);
 Product = __decorate([
     (0, typeorm_1.Entity)("products")
 ], Product);

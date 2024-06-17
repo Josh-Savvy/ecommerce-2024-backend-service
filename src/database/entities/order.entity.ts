@@ -11,6 +11,13 @@ import Product from "./product.entity";
 import StringHelper from "../../helpers/string.helper";
 import User from "./user.entity";
 
+export enum OrderStatus {
+	IN_PROGRESS = "IN_PROGRESS",
+	DISPATCHED = "DISPATCHED",
+	DELIVERED = "DELIVERED",
+	CANCELLED = "CANCELLED",
+}
+
 @Entity("orders")
 export default class Order {
 	@PrimaryGeneratedColumn()
@@ -25,11 +32,20 @@ export default class Order {
 	@Column({ type: "decimal", precision: 10, scale: 2, default: 0 })
 	totalAmount!: number;
 
+	@Column({ type: "enum", enum: OrderStatus, default: OrderStatus.IN_PROGRESS })
+	status!: OrderStatus;
+
 	@OneToMany(() => Product, (product) => product.order, { cascade: true, onDelete: "NO ACTION" })
 	products!: Product[];
 
-	@ManyToOne(() => User, (user) => user.orders, { onDelete: "CASCADE" })
+	@ManyToOne(() => User, (user) => user.orders, { onDelete: "NO ACTION" })
 	user!: User;
+
+	@Column({ type: "timestamp", nullable: true })
+	deliveryDate!: Date | null;
+
+	@Column({ type: "timestamp", nullable: true })
+	deliveredOn!: Date | null;
 
 	@CreateDateColumn({ type: "timestamp" })
 	createdAt!: Date;

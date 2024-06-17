@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import Category from "./category.entity";
 import Order from "./order.entity";
+import User from "./user.entity";
 
 export interface ProductImage {
 	id: string;
@@ -53,18 +54,23 @@ export default class Product {
 	@Column("decimal", { precision: 10, scale: 2, nullable: true })
 	discoutedPrice!: number;
 
-	@Column("jsonb", { default: [], nullable: true })
-	rating!: Rating[];
-
-	// Todo: created by
-
 	@CreateDateColumn()
 	createdAt!: Date;
 
 	@UpdateDateColumn()
 	updatedAt!: Date;
 
-	@ManyToOne(() => Category, (category) => category.products, { onDelete: "CASCADE" })
+	@Column("jsonb", { default: [], nullable: true })
+	rating!: Rating[];
+
+	@ManyToOne(() => User, (user) => user.products, { onDelete: "CASCADE" })
+	@JoinColumn({ name: "sellerId" })
+	seller!: User;
+
+	@Column()
+	sellerId!: string;
+
+	@ManyToOne(() => Category, (category) => category.products, { onDelete: "RESTRICT" })
 	@JoinColumn({ name: "categoryId" })
 	category!: Category;
 
@@ -72,5 +78,9 @@ export default class Product {
 	categoryId!: string;
 
 	@ManyToOne(() => Order, (order) => order.products, { nullable: true, onDelete: "SET NULL" })
+	@JoinColumn({ name: "orderId" })
 	order!: Order | null;
+
+	@Column({ nullable: true })
+	orderId!: string;
 }

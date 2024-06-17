@@ -15,6 +15,7 @@ const http_1 = __importDefault(require("http"));
 const products_1 = __importDefault(require("./database/seeders/products"));
 const morgan_1 = __importDefault(require("morgan"));
 const category_1 = __importDefault(require("./database/seeders/category"));
+const user_1 = __importDefault(require("./database/seeders/user"));
 dotenv_1.default.config();
 const PORT = process.env.PORT || 3000;
 const app = (0, express_1.default)();
@@ -45,6 +46,7 @@ database_1.default.initialize()
     .then(async () => {
     console.log("Database connected.");
     if (process.env.RUN_SEEDERS == "true") {
+        await (0, user_1.default)();
         await (0, category_1.default)(10);
         await (0, products_1.default)();
         // Other seeders

@@ -11,6 +11,7 @@ import {
 } from "typeorm";
 import * as bcrypt from "bcrypt";
 import Order from "./order.entity";
+import Product from "./product.entity";
 
 export enum UserRole {
 	User = "User",
@@ -52,6 +53,9 @@ export default class User {
 
 	@UpdateDateColumn()
 	updatedAt!: Date;
+
+	@OneToMany(() => Product, (product) => product.seller, { onDelete: "SET NULL", nullable: true })
+	products!: Product[];
 
 	@OneToMany(() => Order, (order) => order.user, { onDelete: "SET NULL", nullable: true })
 	orders!: Order[];
