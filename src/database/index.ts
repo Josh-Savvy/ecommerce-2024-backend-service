@@ -7,6 +7,7 @@ import Product from "./entities/product.entity";
 import Auth from "./entities/auth.entity";
 import Category from "./entities/category.entity";
 import Order from "./entities/order.entity";
+import Seller from "./entities/seller.entity";
 config();
 
 const dbConfig: DataSourceOptions = {
@@ -20,7 +21,7 @@ const dbConfig: DataSourceOptions = {
 	extra: process.env.NODE_ENV === "production" ? { ssl: { rejectUnauthorized: false } } : {},
 	logging: !true,
 	synchronize: true,
-	entities: [User, Product, Auth, Category, Order],
+	entities: [User, Seller, Product, Auth, Category, Order],
 	// Todo: add cache option
 };
 

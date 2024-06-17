@@ -12,6 +12,7 @@ import seedProducts from "./database/seeders/products";
 import morgan from "morgan";
 import seedCategories from "./database/seeders/category";
 import seedUsers from "./database/seeders/user";
+import seedSellers from "./database/seeders/sellers";
 
 dotenv.config();
 
@@ -53,6 +54,7 @@ AppDataSource.initialize()
 		console.log("Database connected.");
 		if (process.env.RUN_SEEDERS == "true") {
 			await seedUsers();
+			await seedSellers();
 			await seedCategories(10);
 			await seedProducts();
 			// Other seeders

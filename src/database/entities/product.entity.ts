@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 import Category from "./category.entity";
 import Order from "./order.entity";
-import User from "./user.entity";
+import Seller from "./seller.entity";
 
 export interface ProductImage {
 	id: string;
@@ -63,9 +63,9 @@ export default class Product {
 	@Column("jsonb", { default: [], nullable: true })
 	rating!: Rating[];
 
-	@ManyToOne(() => User, (user) => user.products, { onDelete: "CASCADE" })
+	@ManyToOne(() => Seller, (seller) => seller.products, { onDelete: "CASCADE" })
 	@JoinColumn({ name: "sellerId" })
-	seller!: User;
+	seller!: Seller;
 
 	@Column()
 	sellerId!: string;

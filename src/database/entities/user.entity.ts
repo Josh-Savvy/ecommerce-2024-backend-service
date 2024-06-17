@@ -8,10 +8,11 @@ import {
 	BeforeUpdate,
 	OneToMany,
 	ManyToMany,
+	OneToOne,
 } from "typeorm";
 import * as bcrypt from "bcrypt";
 import Order from "./order.entity";
-import Product from "./product.entity";
+import Seller from "./seller.entity";
 
 export enum UserRole {
 	User = "User",
@@ -19,6 +20,7 @@ export enum UserRole {
 	Admin = "Admin",
 	SuperAdmin = "SuperAdmin",
 }
+
 @Entity("users")
 export default class User {
 	@PrimaryGeneratedColumn("uuid")
@@ -54,8 +56,8 @@ export default class User {
 	@UpdateDateColumn()
 	updatedAt!: Date;
 
-	@OneToMany(() => Product, (product) => product.seller, { onDelete: "SET NULL", nullable: true })
-	products!: Product[];
+	@OneToOne(() => Seller, (seller) => seller.user, { cascade: true })
+	sellerProfile!: Seller;
 
 	@OneToMany(() => Order, (order) => order.user, { onDelete: "SET NULL", nullable: true })
 	orders!: Order[];

@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const category_entity_1 = __importDefault(require("./category.entity"));
 const order_entity_1 = __importDefault(require("./order.entity"));
-const user_entity_1 = __importDefault(require("./user.entity"));
+const seller_entity_1 = __importDefault(require("./seller.entity"));
 let Product = class Product {
 };
 __decorate([
@@ -71,9 +71,9 @@ __decorate([
     __metadata("design:type", Array)
 ], Product.prototype, "rating", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.default, (user) => user.products, { onDelete: "CASCADE" }),
+    (0, typeorm_1.ManyToOne)(() => seller_entity_1.default, (seller) => seller.products, { onDelete: "CASCADE" }),
     (0, typeorm_1.JoinColumn)({ name: "sellerId" }),
-    __metadata("design:type", user_entity_1.default)
+    __metadata("design:type", seller_entity_1.default)
 ], Product.prototype, "seller", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
